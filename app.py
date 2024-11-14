@@ -9,6 +9,12 @@ import pathlib
 import datetime
 
 
+# Iniciar la app
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+#agregar linea de server para git:
+server=app.server
+
 # Cargar datos
 price_data = pd.read_csv("stock_prices.csv", parse_dates=['Date'], index_col='Date')
 returns_data = pd.read_csv("stock_returns.csv", parse_dates=['Date'], index_col='Date')
@@ -20,14 +26,6 @@ stocks = ["COST", "ROST", "MMM","PG", "GE", "RTX"]
 #rango de fechas a importat
 end_date = datetime.datetime(2024, 11, 12)
 start_date= datetime.datetime(2021, 11, 15)
-
-
-
-# Iniciar la app
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
-
-#agregar linea de server para git:
-server=app.server
 
 app.layout = html.Div([
     html.H1("Dashboard Caso Final"),
