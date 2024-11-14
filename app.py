@@ -87,9 +87,11 @@ def update_graph(selected_stocks, data_type, start_date, end_date):
     fig = px.line(filtered_data, x=filtered_data.index, y=filtered_data.columns)
     fig.update_layout(title="Precio y Retornos de la Acción", xaxis_title="Fecha", yaxis_title="Value")
 
-    # Crear los histogramas
+       # Crear los histogramas
     fig2 = px.histogram(returns_data3, x="Portfolio")
+    fig2.update_layout(title="Maximos Sharpe", xaxis_title="Fecha")
     fig3 = px.histogram(returns_data4, x="Portfolio")
+    fig3.update_layout(title="Minima Volatilidad", xaxis_title="Fecha")
     
     return fig, fig2, fig3
 
