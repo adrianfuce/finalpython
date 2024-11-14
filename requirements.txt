@@ -1,0 +1,10 @@
+dash
+plotly.express
+pandas
+dash_bootstrap_components
+gunicorn
+pandas
+datetime
+dash_bootstrap_components
+yfinance
+warnings
