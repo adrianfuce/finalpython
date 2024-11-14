@@ -4,12 +4,9 @@ from dash import html
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
-import datetime
 import dash_bootstrap_components as dbc
-import yfinance as yf
-import warnings
+import pathlib
 
-warnings.filterwarnings("ignore")
 
 # Cargar datos
 price_data = pd.read_csv("stock_prices.csv", parse_dates=['Date'], index_col='Date')
@@ -23,11 +20,13 @@ stocks = ["COST", "ROST", "MMM","PG", "GE", "RTX"]
 end_date = datetime.datetime(2024, 11, 12)
 start_date= datetime.datetime(2021, 11, 15)
 
-#agregar linea de server para git:
-server=app.server
+
 
 # Iniciar la app
-app = dash.Dash(__name__)
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+#agregar linea de server para git:
+server=app.server
 
 app.layout = html.Div([
     html.H1("Dashboard Caso Final"),
