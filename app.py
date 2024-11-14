@@ -16,10 +16,10 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 server=app.server
 
 # Cargar datos
-price_data = pd.read_csv("stock_prices.csv", parse_dates=['Date'], index_col='Date')
-returns_data = pd.read_csv("stock_returns.csv", parse_dates=['Date'], index_col='Date')
-returns_data3 = pd.read_csv("returns_data3.csv", parse_dates=['Date'], index_col='Date')
-returns_data4 = pd.read_csv("returns_data4.csv", parse_dates=['Date'], index_col='Date')
+price_data = pd.read_csv("stock_prices.csv")
+returns_data = pd.read_csv("stock_returns.csv")
+returns_data3 = pd.read_csv("returns_data3.csv")
+returns_data4 = pd.read_csv("returns_data4.csv")
 
 stocks = ["COST", "ROST", "MMM","PG", "GE", "RTX"]
 
