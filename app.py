@@ -10,7 +10,7 @@ import datetime
 
 
 # Iniciar la app
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__)
 
 #agregar linea de server para git:
 server=app.server
