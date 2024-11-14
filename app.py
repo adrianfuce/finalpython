@@ -12,34 +12,28 @@ import datetime
 # Iniciar la app
 app = dash.Dash(__name__)
 
-#agregar linea de server para git:
 server=app.server
-
-# Cargar datos
-price_data = pd.read_csv("stock_prices.csv")
-returns_data = pd.read_csv("stock_returns.csv")
-returns_data3 = pd.read_csv("returns_data3.csv")
-returns_data4 = pd.read_csv("returns_data4.csv")
-
-stocks = ["COST", "ROST", "MMM","PG", "GE", "RTX"]
-
-#rango de fechas a importat
-end_date = datetime.datetime(2024, 11, 12)
-start_date= datetime.datetime(2021, 11, 15)
 
 app.layout = html.Div([
     html.H1("Dashboard Caso Final"),
     
-    
     html.Label("Select Stock"),
-    dcc.Dropdown(id='stock-dropdown', options=[{'label': stock, 'value': stock} for stock in stocks], value=stocks[0], multi=True),
-    
+    dcc.Dropdown(
+        id='stock-dropdown', 
+        options=[{'label': stock, 'value': stock} for stock in stocks], 
+        value=stocks[0], 
+        multi=True
+    ),
     
     html.Label("Select Data Type"),
-    dcc.Dropdown(id='data-type-dropdown', options=[
-        {'label': 'Price', 'value': 'price'},
-        {'label': 'Return', 'value': 'return'}
-    ], value='price'),
+    dcc.Dropdown(
+        id='data-type-dropdown', 
+        options=[
+            {'label': 'Price', 'value': 'price'},
+            {'label': 'Return', 'value': 'return'}
+        ], 
+        value='price'
+    ),
     
     # Slicer para el rango de fechas
     dcc.DatePickerRange(
@@ -55,7 +49,7 @@ app.layout = html.Div([
     dcc.Graph(id='histogram2')
 ])
 
-# Callback para actualizar el gráfico
+# Callback para actualizar los gráficos
 @app.callback(
     [Output('stock-graph', 'figure'),
      Output('histogram1','figure'),
@@ -67,24 +61,24 @@ app.layout = html.Div([
 )
 def update_graph(selected_stocks, data_type, start_date, end_date):
     # Filtrar los datos por el rango de fechas
-    filtered_data = price_data.loc[start_date:end_date, selected_stocks]
-    if data_type == 'return':
+    if data_type == 'price':
+        filtered_data = price_data.loc[start_date:end_date, selected_stocks]
+    else:
         filtered_data = returns_data.loc[start_date:end_date, selected_stocks]
     
-    # Crear la figura
+    # Si filtered_data es una Serie, convertirlo a DataFrame
+    if isinstance(filtered_data, pd.Series):
+        filtered_data = filtered_data.to_frame()
+
+    # Crear el gráfico de líneas
     fig = px.line(filtered_data, x=filtered_data.index, y=filtered_data.columns)
     fig.update_layout(title="Precio y Retornos de la Acción", xaxis_title="Fecha", yaxis_title="Value")
 
-    print("Inforeturns_data3", returns_data3.head())
-    print("Inforeturns_data4", returns_data4.head())
-    
-    #crear histogramas
-    fig2= px.histogram(returns_data3, x="Portfolio")
+    # Crear los histogramas
+    fig2 = px.histogram(returns_data3, x="Portfolio")
     fig3 = px.histogram(returns_data4, x="Portfolio")
     
-    return (fig,fig2,fig3)
-
-#set server y correr el app
+    return fig, fig2, fig3
 
 #para GITHUB agregar el host y debug
 if __name__=="__main__":
